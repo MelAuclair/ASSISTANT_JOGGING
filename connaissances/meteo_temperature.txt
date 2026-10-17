@@ -1,0 +1,45 @@
+Température < 0°C :
+- Sous-couche thermique haut + bas
+- Veste coupe-vent chaude
+- Pantalon thermique
+- Gants obligatoires
+- Bonnet ou bandeau
+- Chaussettes épaisses
+- Éviter les sorties longues
+
+Température 0–5°C :
+- T-shirt technique + veste chaude
+- Pantalon long isolant
+- Gants légers
+- Buff pour la gorge
+- Chaussures avec bonne adhérence
+
+Température 5–10°C :
+- T-shirt technique manches longues
+- Veste légère coupe-vent
+- Pantalon long classique
+- Chaussettes épaisses si vent fort
+
+Température 10–15°C :
+- T-shirt technique
+- Veste légère si vent > 15 km/h
+- Short ou pantalon léger
+- Chaussettes classiques
+
+Température 15–20°C :
+- T-shirt respirant
+- Short ou pantalon léger
+- Pas de veste sauf vent fort
+- Lunettes si soleil
+
+Température 20–25°C :
+- T-shirt très respirant
+- Short léger
+- Éviter les tissus épais
+- Casquette légère
+
+Température > 25°C :
+- Débardeur ou t-shirt ultra léger
+- Short très léger
+- Éviter les couleurs sombres
+- Hydratation renforcée

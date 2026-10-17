@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>MelAuFit – Coach vestimentaire IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-container">
+  <h1>Connexion</h1>
+
+  <input id="loginName" type="text" placeholder="Ton prénom">
+  <input id="loginEmail" type="email" placeholder="Ton adresse courriel">
+  <input id="loginCity" type="text" placeholder="Ta ville">
+
+  <button id="loginBtn">Entrer</button>
+</div>
+
+<!-- APP -->
+<div id="appScreen" class="hidden">
+
+<header class="header">
+  <span class="brand">MelAuFit – Coach vestimentaire IA</span>
+  <button id="changeUserBtn" class="change-user-btn">Changer de personne</button>
+</header>
+
+
+  <main class="layout">
+
+    <!-- Température + SANTÉ -->
+    <section class="avatar-panel">
+      
+      <div id="weatherInfo" class="weather-info">
+        Température réelle : --
+      </div>
+
+      <div id="healthAdvice" class="health-box"></div>
+    </section>
+
+    <!-- CHAT IA -->
+    <section class="chat-panel">
+      <div id="chatHistory" class="chat-history"></div>
+
+      <div class="chat-input-row">
+        <input id="chatInput" type="text" placeholder="Parle à ton coach IA...">
+        <button id="chatSendBtn">Envoyer</button>
+      </div>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="journal-panel">
+  <h3>Journal de ressenti</h3>
+
+  <textarea id="journalInput" placeholder="Comment te sens-tu aujourd’hui ?"></textarea>
+  <button id="journalBtn">Ajouter au journal</button>
+
+ 
+  <div id="journalDisplay"></div>
+  <div id="historyDisplay" class="hidden"></div>
+</section>
+
+
+  </main>
+
+</div>
+
+<footer>
+  <div id="runner"></div>
+</footer>
+
+
+
+<script src="/config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
