@@ -1,33 +1,24 @@
-// Importation des frameworks et dépendances backend
 import express from 'express';
 import 'dotenv/config';
 import fs from 'fs/promises';
 import multer from 'multer';
-//import mammoth from 'mammoth';
-//import { PDFParse } from 'pdf-parse';
-// Modules MCP pour communiquer avec le serveur de connecteurs locaux
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import fetch from "node-fetch";
 
 const app = express();
-// Augmentation de la limite de taille des requêtes JSON/URL-encoded pour gérer de grandes images/fichiers joints
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Configuration du stockage temporaire des fichiers importés
 const upload = multer({ dest: 'uploads/' });
 
-// Exposition des fichiers statiques (Frontend HTML/CSS/JS)
 app.use(express.static('public'));
 
-/* CONFIGURATION : Route dynamique pour exposer de manière contrôlée le jeton d'API secret au frontend local */
 app.get('/config.js', (req, res) => {
   res.type('javascript');
   res.send(`window.API_SECRET_TOKEN = "${process.env.API_SECRET_TOKEN || ''}";`);
 });
 
-// Ports et chemins de stockage locaux
 const PORT = process.env.PORT || 3000;
 const FICHIER_LOG = './logs/agent.log';
 const FICHIER_CONVERSATIONS = './logs/conversations.json';
@@ -41,7 +32,7 @@ let mcpClient = null;
 async function initMcpClient() {
   if (mcpClient) return mcpClient;
   try {
-    // Communication standard d'entrée/sortie (stdio) avec mcp-server.js
+    
     const transport = new StdioClientTransport({
       command: "node",
       args: ["mcp-server.js"]
@@ -60,7 +51,6 @@ async function initMcpClient() {
   }
 }
 
-/* CORRECTIF SÉCURITÉ : Restriction du CORS et validation du jeton d'API secret */
 app.use((req, res, next) => {
   const allowedOrigins = ['http://localhost', 'http://127.0.0.1'];
   const origin = req.headers.origin;
@@ -85,29 +75,7 @@ app.use((req, res, next) => {
   next();
 });
 
-/* 
- * OPTIMISATION : Résolution des conditions de concurrence (Race Conditions)
- * 
- * QU'EST-CE QU'UNE CONDITION DE CONCURRENCE (RACE CONDITION) ?
- * Une condition de concurrence survient lorsque plusieurs opérations asynchrones tentent de lire
- * ou d'écrire sur la même ressource partagée (ici, le fichier unique `conversations.json`)
- * simultanément ou dans un ordre imprévisible.
- * 
- * Exemple concret de bug :
- * 1. La requête A arrive, commence à lire le fichier `conversations.json` (asynchrone).
- * 2. La requête B arrive une milliseconde plus tard, commence aussi à lire le même fichier.
- * 3. La requête A termine sa lecture, ajoute son nouveau message à l'historique et réécrit le fichier.
- * 4. La requête B termine sa lecture (qui ne contenait pas encore le message de A), ajoute son propre message,
- *    et réécrit le fichier. Le message de la requête A est alors définitivement écrasé et perdu.
- * 
- * COMMENT NOTRE CODE RÉSOUD CE PROBLÈME ?
- * Nous implémentons une file d'attente asynchrone basée sur une chaîne de Promesses (`fileQueue`).
- * Chaque accès (lecture ou écriture) est encapsulé dans une fonction passée à `executerOperationFichier`.
- * Cette fonction enchaîne les opérations sur la promesse globale `fileQueue` à l'aide de `.then()`.
- * Ainsi, même si Node.js reçoit 10 requêtes de chat simultanées, les lectures/écritures sur le fichier JSON
- * seront exécutées de manière strictement séquentielle (l'une après l'autre), éliminant
- * tout risque de chevauchement d'accès ou de corruption de données.
- */
+
 let fileQueue = Promise.resolve();
 
 /**
@@ -130,7 +98,6 @@ async function executerOperationFichier(op) {
   });
 }
 
-/* OPTIMISATION & CORRECTIF SÉCURITÉ : Lecture asynchrone sécurisée avec file d'attente */
 async function chargerConversations() {
   return executerOperationFichier(async () => {
     try {
@@ -142,7 +109,6 @@ async function chargerConversations() {
   });
 }
 
-/* OPTIMISATION & CORRECTIF SÉCURITÉ : Écriture asynchrone sécurisée avec file d'attente pour éviter les écritures simultanées corrompues */
 async function sauvegarderConversations(conversations) {
   return executerOperationFichier(async () => {
     await fs.writeFile(FICHIER_CONVERSATIONS, JSON.stringify(conversations, null, 2), 'utf-8');
@@ -167,7 +133,7 @@ async function enregistrerLog(chemin, message) {
  */
 
 async function chargerConnaissances() {
-  const dossier = "./connaissance";
+  const dossier = "./connaissances";
   let connaissances = "";
 
   try {
@@ -301,36 +267,7 @@ const connaissances = await chargerConnaissances();
  * @param {string} mimeType - Le type MIME du fichier.
  * @returns {Promise<Object>} Objet contenant le texte extrait et/ou les données image base64.
  */
-//async function extraireContenuFichier(fileBuffer, mimeType) {
-  //let documentText = '';
-  //let imageData = null;
 
- // try {
-    //if (mimeType === 'application/pdf') {
-      //const parser = new PDFParse(new Uint8Array(fileBuffer));
-      //const pdfResult = await parser.getText();
-      //documentText = pdfResult.text;
-    //}
-    //else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-      //mimeType === 'application/msword') {
-      //const docxResult = await mammoth.extractRawText({ buffer: fileBuffer });
-      //documentText = docxResult.value;
-    //}
-    //else 
-     // if (mimeType.startsWith('image/')) {
-     // imageData = fileBuffer.toString('base64');
-    //}
-   // else if (mimeType.startsWith('text/') ||
-     // mimeType === 'application/json' ||
-     // mimeType === 'application/javascript') {
-     // documentText = fileBuffer.toString('utf-8');
-    //}
-  //} catch (err) {
-    //throw new Error(`Erreur lors de l'extraction du fichier (${mimeType}) : ${err.message}`);
-  //}
-
-  //return { documentText, imageData };
-//}
 
 async function extraireContenuFichier(fileBuffer, mimeType) {
   let documentText = '';
@@ -355,10 +292,8 @@ async function extraireContenuFichier(fileBuffer, mimeType) {
 function nettoyerTexteIA(texte) {
   if (!texte) return texte;
 
-  // Enlever "assistant :" au début
   texte = texte.replace(/^assistant\s*:/i, "");
 
-  // Enlever "assistant" seul au début
   texte = texte.replace(/^assistant\s+/i, "");
 
   return texte.trim();
@@ -545,7 +480,7 @@ app.post('/api/chat', upload.single('file'), async (req, res) => {
 });
 
 app.post('/api/chat/approuver', async (req, res) => {
-  /* OPTIMISATION : Contrôle d'annulation de la requête côté serveur lors de l'approbation */
+  
   const clientController = new AbortController();
   res.on('close', () => {
     if (!res.writableEnded) {
@@ -661,7 +596,6 @@ app.delete('/api/conversations/:id', async (req, res) => {
   }
 });
 
-/* ROUTE METEO : Récupère la température via OpenWeather */
 app.get('/api/weather', async (req, res) => {
   try {
     const city = req.query.city || "Drummondville";
