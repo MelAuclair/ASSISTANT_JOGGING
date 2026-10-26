@@ -2,10 +2,10 @@ const API_TOKEN = window.API_SECRET_TOKEN;
 let currentUser = null;
 let meteoActuelle = null;
 
-// Journal permanent (backup par utilisateur)
-let journalBackup = {}; // journalBackup[email] = [...]
 
-// RÉFÉRENCES DOM
+let journalBackup = {}; 
+
+
 const loginScreen = document.getElementById("loginScreen");
 const appScreen = document.getElementById("appScreen");
 const loginName = document.getElementById("loginName");
@@ -20,7 +20,7 @@ const weatherInfo = document.getElementById("weatherInfo");
 const healthAdvice = document.getElementById("healthAdvice");
 const changeUserBtn = document.getElementById("changeUserBtn");
 
-// Vérifier backend (météo)
+
 async function backendPret() {
   try {
     const res = await fetch("/api/weather", {
@@ -32,7 +32,7 @@ async function backendPret() {
   }
 }
 
-// Charger météo
+
 async function chargerMeteo(ville) {
   try {
     const res = await fetch(`/api/weather?city=${ville}`, {
@@ -51,7 +51,7 @@ async function chargerMeteo(ville) {
   }
 }
 
-// Conseils santé
+
 function genererConseils(meteo) {
   if (!meteo) return;
 
@@ -66,7 +66,7 @@ function genererConseils(meteo) {
   healthAdvice.innerHTML = conseils.map(c => `<p>• ${c}</p>`).join("");
 }
 
-// Chat IA — maintenant avec interrogation du journal
+
 async function envoyerMessage(message) {
   if (!message.trim()) return;
 
@@ -101,7 +101,7 @@ async function envoyerMessage(message) {
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
-// JOURNAL — ajout (invisible)
+
 journalBtn.addEventListener("click", () => {
   if (!currentUser) {
     alert("Connecte-toi avant d’ajouter au journal.");
@@ -128,11 +128,11 @@ journalBtn.addEventListener("click", () => {
     prenom: currentUser.name
   };
 
-  // Ajouter au backup permanent
+  
   if (!journalBackup[currentUser.email]) journalBackup[currentUser.email] = [];
   journalBackup[currentUser.email].push(entry);
 
-  // Sauvegarder backup permanent
+  
   localStorage.setItem(
     "journal_backup_" + currentUser.email,
     JSON.stringify(journalBackup[currentUser.email])
@@ -141,7 +141,7 @@ journalBtn.addEventListener("click", () => {
   journalInput.value = "";
 });
 
-// LOGIN
+
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const name = loginName.value.trim();
   const email = loginEmail.value.trim();
@@ -159,11 +159,11 @@ if (runner) {
   runner.style.animation = "runCycle 0.8s steps(17) infinite, moveAcross 6s linear infinite";
 }
 
-  // Charger backup permanent de CET utilisateur
+  
   const savedBackup = localStorage.getItem("journal_backup_" + email);
   journalBackup[email] = savedBackup ? JSON.parse(savedBackup) : [];
 
-  // Effacer affichages
+  
   chatHistory.innerHTML = "";
 
   loginScreen.classList.add("hidden");
@@ -178,7 +178,6 @@ if (runner) {
 });
 
 
-// Bouton “Changer de personne”
 changeUserBtn.addEventListener("click", () => {
   currentUser = null;
 
@@ -193,7 +192,7 @@ changeUserBtn.addEventListener("click", () => {
   loginScreen.classList.remove("hidden");
 });
 
-// Bouton Envoyer + Enter
+
 chatSendBtn.addEventListener("click", () => {
   envoyerMessage(chatInput.value);
   chatInput.value = "";
@@ -207,15 +206,11 @@ chatInput.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialisation
+
 (async () => {
   const ok = await backendPret();
   if (!ok) alert("Le backend refuse la connexion.");
 })();
-
-
-
-
 
 function applyTimeTheme() {
   const hour = new Date().getHours();
@@ -234,7 +229,7 @@ function applyTimeTheme() {
   }
 }
 
-// appliquer au chargement
+
 applyTimeTheme();
 if (meteoActuelle) applyDynamicTheme(meteoActuelle.description);
 
@@ -242,19 +237,19 @@ function applyDynamicTheme(weatherDescription) {
   const hour = new Date().getHours();
   const body = document.body;
 
-  // Reset des classes
+  
   body.classList.remove(
     "theme-morning", "theme-day", "theme-evening", "theme-night",
     "weather-sun", "weather-rain", "weather-snow", "weather-cloud", "weather-wind"
   );
 
-  // Thème selon l'heure
+  
   if (hour >= 6 && hour < 10) body.classList.add("theme-morning");
   else if (hour >= 10 && hour < 17) body.classList.add("theme-day");
   else if (hour >= 17 && hour < 20) body.classList.add("theme-evening");
   else body.classList.add("theme-night");
 
-  // Thème météo
+  
   const meteo = weatherDescription.toLowerCase();
   if (meteo.includes("sun") || meteo.includes("clear")) body.classList.add("weather-sun");
   else if (meteo.includes("rain")) body.classList.add("weather-rain");

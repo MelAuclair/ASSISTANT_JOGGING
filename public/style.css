@@ -1,6 +1,4 @@
-/* ==================================================
-   1. CONFIGURATION GLOBALE
-================================================== */
+/* CONFIGURATION GLOBALE */
 
 * {
   margin: 0;
@@ -38,67 +36,8 @@
   );
 }
 
-/* ==================================================
-   2. THÈMES SELON LE MOMENT DE LA JOURNÉE
-================================================== */
 
-/* MATIN */
-.theme-morning {
-  --bg-main: #F0F4F5;
-  --bg-gradient: linear-gradient(
-    120deg,
-    #EDF3F6,
-    #F5F7F8
-  );
-}
-
-/* JOUR */
-.theme-day {
-  --bg-main: #F5F7F8;
-  --bg-gradient: linear-gradient(
-    120deg,
-    #F5F7F8,
-    #EEF3F5
-  );
-}
-
-/* SOIR */
-.theme-evening {
-  --bg-main: #EDEFF2;
-  --bg-gradient: linear-gradient(
-    120deg,
-    #EDEFF2,
-    #E7EDF0
-  );
-}
-
-/* NUIT */
-.theme-night {
-  --bg-main: #303B49;
-  --bg-card: #3B4857;
-  --bg-secondary: #465362;
-  --bg-input: #3B4857;
-
-  --text-main: #E8EEF1;
-  --text-secondary: #C0CBD3;
-
-  --primary: #80AAB5;
-  --primary-hover: #95BAC3;
-  --accent: #9AB8A7;
-
-  --border: #526170;
-  --shadow: rgba(0, 0, 0, 0.16);
-
-  --bg-gradient: linear-gradient(
-    120deg,
-    #303B49,
-    #384654
-  );
-}
-
-/* ==================================================
-   3. PAGE PRINCIPALE
-================================================== */
+/* PAGE PRINCIPALE */
 
 body {
   min-height: 100vh;
@@ -166,9 +105,7 @@ body.animated-background {
   display: none !important;
 }
 
-/* ==================================================
-   4. CONNEXION
-================================================== */
+/* CONNEXION */
 
 .login-container {
   width: 100%;
@@ -220,9 +157,7 @@ body.animated-background {
   background: var(--primary-hover);
 }
 
-/* ==================================================
-   5. EN-TÊTE
-================================================== */
+/* EN-TÊTE */
 
 .header {
   position: relative;
@@ -262,9 +197,7 @@ body.animated-background {
   background: rgba(255, 255, 255, 0.28);
 }
 
-/* ==================================================
-   6. STRUCTURE PRINCIPALE
-================================================== */
+/* STRUCTURE PRINCIPALE */
 
 .layout {
   display: flex;
@@ -278,9 +211,7 @@ body.animated-background {
   margin: 0 auto;
 }
 
-/* ==================================================
-   7. PANNEAU AVATAR
-================================================== */
+/* PANNEAU AVATAR */
 
 .avatar-panel {
   flex: 1;
@@ -327,9 +258,7 @@ body.animated-background {
   font-size: 16px;
 }
 
-/* ==================================================
-   8. PANNEAU DE DISCUSSION
-================================================== */
+/* PANNEAU DE DISCUSSION */
 
 .chat-panel {
   flex: 1;
@@ -381,13 +310,10 @@ content: "MelAuFit : ";
   color: #3D6D79; /* ou la couleur que tu veux */
 }
 
-
 .msg-ia::before {
   content: "MelAuFit : ";
   color: #3D6D79;
 }
-
-
 
 .chat-input-row {
   display: flex;
@@ -428,9 +354,7 @@ content: "MelAuFit : ";
   background: var(--primary-hover);
 }
 
-/* ==================================================
-   9. JOURNAL
-================================================== */
+/* JOURNAL */
 
 .journal-panel {
   flex: 0.7;
@@ -493,9 +417,7 @@ content: "MelAuFit : ";
   background: #527461;
 }
 
-/* ==================================================
-   10. CHAMPS ET ACCESSIBILITÉ
-================================================== */
+/* CHAMPS ET ACCESSIBILITÉ */
 
 input,
 textarea,
@@ -521,9 +443,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* ==================================================
-   11. AMBIANCE MÉTÉO
-================================================== */
+/* AMBIANCE MÉTÉO */
 
 /* Soleil */
 .weather-sun {
@@ -550,9 +470,7 @@ button:disabled {
   --bg-overlay: rgba(145, 181, 166, 0.12);
 }
 
-/* ==================================================
-   12. ANIMATION DE L'AVATAR DANS LE PIED DE PAGE
-================================================== */
+/* ANIMATION DE L'AVATAR DANS LE PIED DE PAGE */
 
 footer {
   position: relative;
@@ -560,22 +478,6 @@ footer {
   overflow: hidden;
 }
 
-/*#runner {
-  position: absolute;
-  background-color: transparent;
-  bottom: 70px;
-  left: -200px;
-
-  width: 200px;
-  height: 200px;
-
-  background-repeat: no-repeat;
-  background-size: 200px 200px;
-
-  animation:
-    runCycle 1s steps(17) infinite,
-    moveAcross 6s linear infinite;
-}*/
 
 #runner {
   position: fixed;
@@ -626,9 +528,7 @@ footer {
 
 
 
-/* ==================================================
-   13. VERSION MOBILE
-================================================== */
+/*  VERSION cellul */
 
 @media (max-width: 768px) {
   .layout {
